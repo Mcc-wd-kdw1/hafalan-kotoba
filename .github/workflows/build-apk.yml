@@ -18,9 +18,20 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Siapkan proyek
-        run: | mkdir -p www cp index.html www/index.html npm init -y npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/filesystem@6 @capacitor/share@6 echo '{"appId":"id.iman.hafalankotoba","appName":"Hafalan Kotoba Irodori","webDir":"www"}' > capacitor.config.json npx cap add android npx cap sync android       - name: Bangun APK
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/filesystem@6 @capacitor/share@6
+          echo '{"appId":"id.iman.hafalankotoba","appName":"Hafalan Kotoba Irodori","webDir":"www"}' > capacitor.config.json
+          npx cap add android
+          npx cap sync android
+      - name: Bangun APK
         working-directory: android
-        run: | chmod +x gradlew ./gradlew assembleDebug       - name: Ganti nama APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: Ganti nama APK
         run: cp android/app/build/outputs/apk/debug/app-debug.apk HafalanKotoba-Irodori.apk
       - name: Terbitkan APK
         uses: softprops/action-gh-release@v2
