@@ -17,15 +17,19 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Susun aplikasi dari folder src
+        run: node build.js
       - name: Siapkan proyek
         run: |
-          mkdir -p www
-          cp index.html www/index.html
           npm init -y
           npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/filesystem@6 @capacitor/share@6
           echo '{"appId":"id.iman.hafalankotoba","appName":"Hafalan Kotoba Irodori","webDir":"www"}' > capacitor.config.json
           npx cap add android
           npx cap sync android
+      - name: Pakai kunci tetap agar APK baru bisa menimpa yang lama
+        run: |
+          mkdir -p ~/.android
+          cp keystore/debug.keystore ~/.android/debug.keystore
       - name: Bangun APK
         working-directory: android
         run: |
